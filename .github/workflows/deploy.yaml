@@ -23,12 +23,9 @@ jobs:
       run: terraform init
 
     - name: Terraform Plan
-      run: terraform plan
+      run: terraform plan -var="client_id=${{ secrets.TF_CLIENT_ID }}" -var="client_secret=${{ secrets.TF_CLIENT_SECRET }}" -var="tenant_id=${{ secrets.TF_TENANT_ID }}"
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve
-      env:
-        ARM_CLIENT_ID: ${{ secrets.TF_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.TF_CLIENT_SECRET }}
-        ARM_TENANT_ID: ${{ secrets.TF_TENANT_ID }}
+      run: terraform apply -auto-approve -var="client_id=${{ secrets.TF_CLIENT_ID }}" -var="client_secret=${{ secrets.TF_CLIENT_SECRET }}" -var="tenant_id=${{ secrets.TF_TENANT_ID }}"
+    
 
