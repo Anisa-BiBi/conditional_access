@@ -1,7 +1,9 @@
 name: Manual Terraform with Azure CLI
 
 on:
-  workflow_dispatch: # runs on button click
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
