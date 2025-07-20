@@ -19,7 +19,7 @@ jobs:
 
       - name: Print GitHub OIDC subject
         run: |
-          echo "Subject: repo:${ github.repository }:ref:${{ github.ref }}"
+          echo "Subject: repo:${{ github.repository }}:ref:${{ github.ref }}"
 
       - name: Azure Login
         uses: azure/login@v1
