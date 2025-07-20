@@ -6,8 +6,8 @@ on:
       - main
 
 permissions:
-  id-token: write  # ✅ Required for OIDC
-  contents: read   # ✅ Required to read repo contents
+  id-token: write    # ✅ Required for OIDC authentication
+  contents: read     # ✅ Required to read repo contents
 
 jobs:
   deploy:
@@ -19,7 +19,6 @@ jobs:
 
       - name: Print GitHub OIDC subject
         run: echo "Subject: repo:${{ github.repository }}:ref:${{ github.ref }}"
-
 
       - name: Azure Login
         uses: azure/login@v1
@@ -43,4 +42,3 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-
