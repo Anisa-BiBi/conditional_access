@@ -4,11 +4,7 @@ on:
   push:
     branches:
       - main
-
-permissions:
-  id-token: write  # ✅ Required for OIDC
-  contents: read   # ✅ Required to read repo contents
-
+      
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -17,29 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Print GitHub OIDC subject
-        run: |
-          echo "Subject: repo:${{ github.repository }}:ref:${{ github.ref }}"
-
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          allow-no-subscriptions: true
-          enable-AzPSSession: false
-
-      - name: Debug OIDC token
-        run: |
-          echo "OIDC token:"
-          curl -H "Authorization: bearer $ACTIONS_ID_TOKEN" $ACTIONS_ID_TOKEN_REQUEST_URL
-
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Plan
         run: terraform plan
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
