@@ -6,6 +6,4 @@ terraform {
     }
   }
 }
-provider "azuread" {
-  use_cli = true
-}
+provider "azuread" {}
