@@ -26,6 +26,11 @@ jobs:
           allow-no-subscriptions: true
           enable-AzPSSession: false
 
+       - name: Debug OIDC token
+         run: |
+          echo "OIDC token:"
+          curl -H "Authorization: bearer $ACTIONS_ID_TOKEN" $ACTIONS_ID_TOKEN_REQUEST_URL
+
       - name: Terraform Init
         run: terraform init
 
