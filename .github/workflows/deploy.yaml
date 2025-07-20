@@ -22,12 +22,25 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan
+    run: |
+      terraform plan \
+        -var="client_id=${{ secrets.AZURE_CLIENT_ID }}" \
+        -var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" \
+        -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
+        -input=false
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+           - name: Terraform Apply
+        run: |
+          terraform apply -auto-approve \
+            -var="client_id=${{ secrets.AZURE_CLIENT_ID }}" \
+            -var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" \
+            -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
+            -input=false
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-
